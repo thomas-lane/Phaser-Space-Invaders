@@ -1,0 +1,34 @@
+#phaserParent {
+    text-align: center;
+}
+
+canvas {
+    border-radius: 10px;
+    border-style: groove;
+    margin: 20px;
+}
+
+body {
+    background-image:linear-gradient(to bottom, rgb(255, 254, 245), white);
+    background-repeat:no-repeat;
+}
+
+header {
+    border-radius: 10px;
+    border-style:solid;
+    border-width: 3px;
+    border-color: black;
+    background-color: rgb(255, 255, 255);
+}
+
+header h1 {
+    /*  For some unknown reason h1 automatically 
+        has massive margins that only affect the 
+        parent of the header when the header does 
+        not have a certain property like a border 
+        or overflow: hidden                        */
+    margin: 0;
+
+    padding: 5px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
