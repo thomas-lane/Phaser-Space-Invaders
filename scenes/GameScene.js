@@ -48,17 +48,12 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
 
         scene.physics.add.existing(this);
         scene.add.existing(this);
-
-        // this.setCollideWorldBounds(true);
-
-        // this.setVelocityX(125);
-        // this.setBounceX(1);
     }
 
     update() {
-        // if (this.follow) {
-        //     this.setPosition(this.initialPosition.x + this.follow.x, this.initialPosition.y + this.follow.y);
-        // }
+        if (this.follow) {
+            this.setPosition(this.initialPosition.x + this.follow.x, this.initialPosition.y + this.follow.y);
+        }
     }
 }
 
@@ -66,33 +61,33 @@ class EnemyGroup extends Phaser.Physics.Arcade.Group {
     constructor(scene) {
         super(scene.physics.world, scene);
 
+        // Setup group hitbox
+        this.go = scene.add.rectangle(0, 0, 300, 300);
+        this.go.setOrigin(0, 0);
+        this.go = scene.physics.add.existing(this.go);
+        this.go.body.setCollideWorldBounds(true);
+        this.go.body.setBounceX(1);
+        this.go.body.setVelocityX(125);
+
+        // Add enemies
         this.enemies = [];
-        this.enemies.push(new Enemy(scene, { x: 600, y: 50 }, ));
+        this.enemies.push(new Enemy(scene, { x: 50, y: 50 }, this.go));
+        this.enemies.push(new Enemy(scene, { x: 125, y: 50 }, this.go));
+        this.enemies.push(new Enemy(scene, { x: 200, y: 50 }, this.go));
+        this.enemies.push(new Enemy(scene, { x: 50, y: 125 }, this.go));
+        this.enemies.push(new Enemy(scene, { x: 125, y: 125 }, this.go));
+        this.enemies.push(new Enemy(scene, { x: 200, y: 125 }, this.go));
 
-        // this.setHitArea // TODO: Investigate this?
-
+        // Add the enemies to the physics group
         this.enemies.forEach((enemy) => {
             this.add(enemy);
-            enemy.setVelocityX(125);
         });
-
-        // scene.add.existing(this);
-
-        /*
-         * TODO: Add physics group to collider with world, when a collision is detected change the velocity of every child of this.enemies
-         *
-         * 
-         */
-
-        // scene.physics.world.setBoundsCollision();
-
-        // scene.physics.world.on('worldbounds', (body) => console.log('collision'), scene);
     }
 
     update() {
+        // Update each enemy so they follow the hitbox
         this.enemies.forEach((enemy) => {
             enemy.update();
-            console.log(enemy.body.velocity.x);
         });
     }
 }
